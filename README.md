@@ -1,6 +1,9 @@
-# Pang Pang Game Project
-## use pygame that is python library
-
+# Python Project
 ## How to run
 - pip install -r requirements.txt
-- python <8_frame.py>
+- python <*.py>
+
+## 1. Game using pygame
+
+## 2. GUI using tkinter
+

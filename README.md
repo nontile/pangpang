@@ -7,3 +7,5 @@
 
 ## 2. GUI using tkinter
 
+### developer guide
+pip freeze > requirements.txt

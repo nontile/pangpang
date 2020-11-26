@@ -13,4 +13,15 @@
 ### developer guide
 pip freeze > requirements.txt
 
+## exe 만들기
+1. pip install pyinstaller
 
+2. pyinstaller test.py
+- build, dist 폴더 생성
+- test.spec 파일 생성
+
+resource_path 를 소스에 추가
+
+pyinstaller -w --add-data 'D:\workspaces\gam\GUI\project\*.png;project' D:\workspaces\gam\GUI\project\3_option.py
+pyinstaller -w D:\workspaces\gam\GUI\project\3_option.py
+pyinstaller -w -F D:\workspaces\gam\Scraping\18_day_msingleone.py

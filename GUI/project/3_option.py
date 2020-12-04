@@ -4,6 +4,16 @@ import tkinter.messagebox as msgbox
 from tkinter import *
 from tkinter import filedialog
 from PIL import Image
+import os
+
+
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 # 초기값 섯팅
 init_val = {
@@ -12,7 +22,7 @@ init_val = {
 
 root = Tk()
 root.title("Image Plus")
-root.iconbitmap("../images/check_red.png")
+root.iconbitmap(resource_path("check_red.png"))
 
 
 # 이미지 통합

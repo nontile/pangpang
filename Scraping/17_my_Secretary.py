@@ -1,3 +1,4 @@
+import re
 import requests
 from bs4 import BeautifulSoup
 
@@ -8,6 +9,11 @@ def create_soup(url):
     res = requests.get(url, headers=headers)
     res.raise_for_status()
     return BeautifulSoup(res.text, "lxml")
+
+
+def print_news(index, title, link):
+    print("{} {} ".format(index + 1, title))
+    print(" (링크 : {})".format(link))
 
 
 def scrape_weather():
@@ -38,15 +44,47 @@ def scrape_headline_new():
     print(" <헤드라인 뉴스>")
     url = "https://news.naver.com/"
     soup = create_soup(url)
-    news_list = soup.find("ul", attrs={"class": "hdline_article_list"}).find_all("li")
+    news_list = soup.find("ul", attrs={"class": "hdline_article_list"}).find_all("li", limit=3)
     for i, news in enumerate(news_list):
         title = news.find("a").get_text().strip()
         link = url + news.find("a")["href"]
-        print("{} {} ".format(i+1, title))
-        print(" (링크 : {})".format(link))
+        print_news(i, title, link)
     print()
 
 
+def scrape_it_news():
+    print(" <IT 뉴스>")
+    url = "https://news.naver.com/main/list.nhn?mode=LS2D&mid=shm&sid1=105&sid2=230"
+    soup = create_soup(url)
+    a_idx = 0
+    news_list = soup.find("ul", attrs={"class": "type06_headline"}).find_all("li", limit=3)
+    for i, news in enumerate(news_list):
+        img = news.find("img")
+        if img:
+            a_idx = 1  # img 태그가 있으면 1번째 a tag 사용하고 img 가 없으면 첫번째 a tag 사용
+        title = news.find_all("a")[a_idx].get_text().strip()
+        link = news.find_all("a")[a_idx]["href"]
+        print_news(i, title, link)
+    print()
+
+
+def scrape_english():
+    print(" <오늘의 영어회화>")
+    url = "https://www.hackers.co.kr/?c=s_eng/eng_contents/I_others_english&keywd=haceng_submain_lnb_eng_I_others_english&logger_kw=haceng_submain_lnb_eng_I_others_english"
+    soup = create_soup(url)
+    sentences = soup.find_all("div", attrs={"id": re.compile("^conv_kor_t")})
+    print("영어지문")
+    for sentence in sentences[len(sentences)//2:]:  # 영어먼저 가저와 //는 나누기때 몫 만 가저옴
+        print(sentence.get_text().strip())
+
+    print()
+    print("한글지문")
+    for sentence in sentences[:len(sentences)//2]:  # 0 ~ 반까지 가저와 //는 나누기때 몫 만 가저옴
+        print(sentence.get_text().strip())
+        
+
 if __name__ == "__main__":
-    # scrape_weather()
+    scrape_weather()
     scrape_headline_new()
+    scrape_it_news()
+    scrape_english()

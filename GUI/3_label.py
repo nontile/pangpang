@@ -15,7 +15,7 @@ def change():
     label1.config(text="Hello")
 
     global photo2
-    photo2 = PhotoImage(file="images/check_red.png")
+    photo2 = PhotoImage(file="project/check_red.png")
     label2.config(image=photo2)
 
 btn = Button(root, text="클릭", command=change)

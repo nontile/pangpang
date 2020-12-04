@@ -6,3 +6,6 @@
 __pycache__/
 /GUI/mynote.txt
 result/
+build/
+dist/
+*.spec

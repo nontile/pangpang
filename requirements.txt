@@ -11,3 +11,5 @@ soupsieve==2.0.1
 urllib3==1.26.2
 
 selenium~=3.141.0
+opencv-python~=4.4.0.46
+future~=0.18.2

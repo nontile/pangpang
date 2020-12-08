@@ -1,13 +1,15 @@
 import cv2
 import tensorflow.keras
 import numpy as np
+import winsound as ws
+import AI.get_mask_sub as kakao
 
 
 # 이미지 전처리
-def pre_processing(frame):
+def pre_processing(_frame):
     # resize
     size = (224, 224)
-    frame_resized = cv2.resize(frame, size=size, interpolation=cv2.INTER_AREA)
+    frame_resized = cv2.resize(_frame, size, interpolation=cv2.INTER_AREA)
 
     # 이미지정규화
     frame_normalized = (frame_resized.astype(np.float32) / 127.0) - 1
@@ -27,7 +29,7 @@ capture = cv2.VideoCapture(0)
 # 캡쳐 프레임 사이즈 조절
 capture.set(cv2.CAP_PROP_FRAME_WIDTH, 320)
 capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)
-
+no_mask = 0
 while True:
     ret, frame = capture.read()
     if ret:
@@ -45,13 +47,20 @@ while True:
     preprocessed = pre_processing(frame_fliped)
 
     # 예측
+    # [[0.00533728 0.99466264]]
+    # 마스크 안씀     마스크 씀
     prediction = model.predict(preprocessed)
-    print(prediction) # [[0.00533728 0.99466264]]
+    # print(prediction)
 
     if prediction[0, 0] < prediction[0, 1]:
-        print('마스크 미착용')
-
-        # 졸린 상태가 30초간 지속되면 소리 & 카카오톡 보내기
+        no_mask += 1
+        # 10초간 지속되면
+        if no_mask % 10 == 0:
+            print('##### 미착용 #####')
+            no_mask = 0
+            ws.PlaySound("*", ws.SND_NOSTOP)
+            kakao.send_music_link()
+            # send_message()
         # if sleep_cnt % 30 == 0:
         #     sleep_cnt = 1
         #     print('30초간 졸고 있네요!!!')

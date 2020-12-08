@@ -14,7 +14,7 @@ model = tensorflow.keras.models.load_model("resources/keras_model.h5")
 data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
 
 # Replace this with the path to your image
-image = Image.open('resources/임동열.jpg')
+image = Image.open('d://idy.jpg')
 
 # resize the image to a 224x224 with the same strategy as in TM2:
 # resizing the image to be at least 224x224 and then cropping from the center

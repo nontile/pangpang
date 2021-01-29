@@ -1,4 +1,8 @@
 # Python Project
+
+## Environment
+python3 -m venv venv
+
 ## How to run
 - pip install -r requirements.txt
 - python <*.py>
